@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/wp-e2e-tests
     docker:
-      - image: 'circleci/node:10.4.1-browsers'
+      - image: 'circleci/node:10.5.0-browsers'
         environment:
           NODE_ENV: test
           TARGET: WOO
@@ -13,12 +13,15 @@ jobs:
       - run: git submodule update --remote --force
       - run: cd wp-e2e-tests && git checkout origin/${E2E_BRANCH-master}
       - restore_cache:
-          key: v1-{{ checksum "wp-e2e-tests/package-lock.json" }}
-      - run: cd wp-e2e-tests && npm install
+          keys:
+            - v1-npmcache-{{ checksum "wp-e2e-tests/.nvmrc" }}-{{ checksum "wp-e2e-tests/package-lock.json" }}
+            - v1-npmcache-{{ checksum "wp-e2e-tests/.nvmrc" }}
+            - v1-npmcache
+      - run: cd wp-e2e-tests && npm ci
       - save_cache:
-          key: v1-{{ checksum "wp-e2e-tests/package-lock.json" }}
+          key: v1-npmcache-{{ checksum "wp-e2e-tests/.nvmrc" }}-{{ checksum "wp-e2e-tests/package-lock.json" }}
           paths:
-            - "wp-e2e-tests/node_modules"
+            - "~/.npm"
       - run: sudo chmod +x wp-e2e-tests/node_modules/.bin/magellan
       - run: cd wp-e2e-tests && npm run decryptconfig && ./run.sh -R -W $RUN_ARGS
       - store_test_results:

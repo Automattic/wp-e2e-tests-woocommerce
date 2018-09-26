@@ -1,7 +1,6 @@
 version: 2
 jobs:
   test:
-    parallelism: 2
     working_directory: ~/wp-e2e-tests
     docker:
       - image: 'circleci/node:$NODE_VERSION-browsers'
@@ -25,7 +24,7 @@ jobs:
             - "~/.npm"
       - run: sudo apt install ffmpeg
       - run: sudo chmod +x wp-e2e-tests/node_modules/.bin/magellan
-      - run: cd wp-e2e-tests && npm run decryptconfig && ./run.sh -p -R -W $RUN_ARGS
+      - run: cd wp-e2e-tests && npm run decryptconfig && ./run.sh -R -W $RUN_ARGS
       - store_test_results:
           path: wp-e2e-tests/reports/
       - store_artifacts:

@@ -11,7 +11,7 @@ jobs:
       - checkout
       - run: git submodule init
       - run: git submodule update --remote --force
-      - run: cd wp-e2e-tests && git checkout origin/${E2E_BRANCH-master}
+      - run: cd wp-e2e-tests && git checkout origin/update/log-in
       - restore_cache:
           keys:
             - v1-npmcache-{{ checksum "wp-e2e-tests/.nvmrc" }}-{{ checksum "wp-e2e-tests/package-lock.json" }}

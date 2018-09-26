@@ -12,7 +12,7 @@ jobs:
       - checkout
       - run: git submodule init
       - run: git submodule update --remote --force
-      - run: cd wp-e2e-tests && git checkout origin/update/log-in
+      - run: cd wp-e2e-tests && git checkout origin/revert-1495-try/use_mobile_emulation
       - restore_cache:
           keys:
             - v1-npmcache-{{ checksum "wp-e2e-tests/.nvmrc" }}-{{ checksum "wp-e2e-tests/package-lock.json" }}

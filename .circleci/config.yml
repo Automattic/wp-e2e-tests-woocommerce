@@ -30,3 +30,18 @@ jobs:
           path: wp-e2e-tests/reports/
       - store_artifacts:
           path: wp-e2e-tests/screenshots/
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - build
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 11,23 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - build

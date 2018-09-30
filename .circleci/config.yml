@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  test:
+  build:
     working_directory: ~/wp-e2e-tests
     docker:
       - image: 'circleci/node:$NODE_VERSION-browsers'
@@ -35,14 +35,14 @@ workflows:
   version: 2
   commit:
     jobs:
-      - test
+      - build
   nightly:
     triggers:
       - schedule:
-          cron: "30 * * * *"
+          cron: "0 11,23 * * *"
           filters:
             branches:
               only:
                 - master
     jobs:
-      - test
+      - build
